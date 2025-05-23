@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.3.2](https://github.com/jonsoku-dev/universal-openapi-mcp/compare/v1.3.1...v1.3.2) (2025-05-23)
+
 ## [1.3.1](https://github.com/jonsoku-dev/universal-openapi-mcp/compare/v1.3.0...v1.3.1) (2025-05-23)
 
 

@@ -4,6 +4,9 @@
   "description": "Universal OpenAPI MCP Server for Model Context Protocol",
   "type": "module",
   "main": "dist/index.js",
+  "bin": {
+    "universal-openapi-mcp": "./dist/index.js"
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/index.ts",
@@ -14,7 +17,8 @@
     "prebuild": "npm run clean",
     "list": "node scripts/dev.js list",
     "generate": "node scripts/dev.js generate",
-    "parse-prd": "node scripts/dev.js parse-prd"
+    "parse-prd": "node scripts/dev.js parse-prd",
+    "release": "release-it"
   },
   "keywords": [
     "mcp",
@@ -53,12 +57,42 @@
     "zod": "^3.25.20"
   },
   "devDependencies": {
+    "@release-it/conventional-changelog": "^10.0.1",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.15.21",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "release-it": "^19.0.2",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
   "engines": {
     "node": ">=18"
+  },
+  "release-it": {
+    "hooks": {
+      "before:init": ["npm run build"]
+    },
+    "git": {
+      "commitMessage": "chore(release): v${version}",
+      "tagName": "v${version}"
+    },
+    "npm": {
+      "publish": true
+    },
+    "github": {
+      "release": true
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": "angular",
+        "infile": "CHANGELOG.md"
+      }
+    }
   }
 }

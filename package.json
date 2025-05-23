@@ -1,6 +1,6 @@
 {
   "name": "universal-openapi-mcp",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Universal OpenAPI MCP Server for Model Context Protocol",
   "type": "module",
   "main": "dist/index.js",

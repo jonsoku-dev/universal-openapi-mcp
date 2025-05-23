@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/jonsoku-dev/universal-openapi-mcp/compare/v1.2.0...v1.2.1) (2025-05-23)
+
+
+### Bug Fixes
+
+* add executable permission to compiled index.js file ([35bcc34](https://github.com/jonsoku-dev/universal-openapi-mcp/commit/35bcc34b92b8859a76493821289a76a96b3ab417))
+
 # [1.2.0](https://github.com/jonsoku-dev/universal-openapi-mcp/compare/v1.1.0...v1.2.0) (2025-05-23)
 
 

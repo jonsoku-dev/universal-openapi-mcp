@@ -1,13 +1,20 @@
 #!/usr/bin/env node
 
-import path from 'path';
+import path, { dirname } from 'path';
 import fs from 'fs';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
 
 // --- PRE-IMPORTS Debugging & Environment Setup ---
 console.error(`[DEBUG cli.ts PRE-IMPORTS] INIT CLI`);
+// Derive __filename and __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 console.error(`[DEBUG cli.ts PRE-IMPORTS] Original CWD: ${process.cwd()}`);
-console.error(`[DEBUG cli.ts PRE-IMPORTS] __dirname: ${__dirname}`);
+console.error(`[DEBUG cli.ts PRE-IMPORTS] import.meta.url: ${import.meta.url}`);
+console.error(`[DEBUG cli.ts PRE-IMPORTS] Derived __filename: ${__filename}`);
+console.error(`[DEBUG cli.ts PRE-IMPORTS] Derived __dirname: ${__dirname}`);
 
 let projectRoot: string;
 

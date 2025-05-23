@@ -41,7 +41,9 @@ async function loadConfiguration() {
     const apiName = process.env.API_NAME;
     
     // Use ConfigLoader with fallback mechanism
+    console.error(`[DEBUG index.ts loadConfiguration] About to call ConfigLoader.loadConfiguration. apiName: '${apiName}', configFilePath: '${configFile}'`);
     const config = await ConfigLoader.loadConfiguration(configFile, apiName);
+    console.error(`[DEBUG index.ts loadConfiguration] ConfigLoader.loadConfiguration returned. Config: ${JSON.stringify(config, null, 2)}`);
     
     if (config.openApiSpecUrl) {
       apiInstance = await SpecLoader.createApiInstance(config);
@@ -66,7 +68,8 @@ async function loadConfiguration() {
 }
 
 // Create and configure the server
-async function createServer() {
+async function createServer(): Promise<FastMCP<any>> {
+  console.error(`[DEBUG index.ts createServer] Entered createServer function.`);
   // Load configuration first
   await loadConfiguration();
 
@@ -356,6 +359,7 @@ Returns:
 
 // Main execution
 async function main() {
+  console.error('[DEBUG index.ts main] Main function started.');
   try {
     const server = await createServer();
     
@@ -370,20 +374,31 @@ async function main() {
     await server.start({
       transportType: 'stdio'
     });
-  } catch (error) {
-    if (error instanceof UserError) {
-      console.error(`Configuration Error: ${error.message}`);
-    } else if (error instanceof Error) {
-      console.error(`Unexpected Error: ${error.name} - ${error.message}`);
-      if (error.stack) {
-        console.error(error.stack);
-      }
+  } catch (error: any) {
+    console.error(`[FATAL ERROR index.ts main] MCP server failed to start.`);
+    if (error instanceof Error) {
+      console.error(`Error Message: ${error.message}`);
+      console.error(`Stack Trace: ${error.stack}`);
     } else {
-      console.error('An unknown error occurred:', error);
+      console.error(`Caught non-Error object: ${JSON.stringify(error)}`);
     }
-    process.exit(1);
+    // Ensure process exits after logging, might help flush stderr
+    process.stderr.write("Forcing exit due to error in main.\n", () => process.exit(1));
   }
 }
+
+// Add global error handlers
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('[FATAL ERROR index.ts] Unhandled Rejection at:', promise, 'reason:', reason);
+  process.stderr.write("Forcing exit due to unhandledRejection.\n", () => process.exit(1));
+});
+
+process.on('uncaughtException', (err, origin) => {
+  console.error(`[FATAL ERROR index.ts] Uncaught Exception: ${err.message}`);
+  console.error(`Origin: ${origin}`);
+  console.error(`Stack: ${err.stack}`);
+  process.stderr.write("Forcing exit due to uncaughtException.\n", () => process.exit(1));
+});
 
 // Export the server creation function for testing
 export { createServer };

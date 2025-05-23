@@ -15,9 +15,6 @@
     "inspect": "npx fastmcp inspect src/index.ts",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean",
-    "list": "node scripts/dev.js list",
-    "generate": "node scripts/dev.js generate",
-    "parse-prd": "node scripts/dev.js parse-prd",
     "release": "release-it"
   },
   "keywords": [

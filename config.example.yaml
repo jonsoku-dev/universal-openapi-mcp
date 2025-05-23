@@ -1,0 +1,52 @@
+apis:
+  # Example GitHub API configuration
+  github:
+    name: github
+    baseUrl: https://api.github.com
+    openApiSpecUrl: https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json
+    authentication:
+      type: bearer
+      config:
+        token: ${GITHUB_TOKEN}
+    defaultHeaders:
+      User-Agent: Universal-OpenAPI-MCP/1.0
+      Accept: application/vnd.github.v3+json
+    timeout: 30000
+
+  # Example JSONPlaceholder API (for testing)
+  jsonplaceholder:
+    name: jsonplaceholder
+    baseUrl: https://jsonplaceholder.typicode.com
+    openApiSpecUrl: https://jsonplaceholder.typicode.com/openapi.json
+    timeout: 15000
+
+  # Example Redmine API configuration (compatible with existing setup)
+  redmine:
+    name: redmine
+    baseUrl: ${REDMINE_URL}
+    openApiSpecPath: ./redmine_openapi.yml
+    authentication:
+      type: apiKey
+      config:
+        apiKey: ${REDMINE_API_KEY}
+        location: header
+        keyName: X-Redmine-API-Key
+    timeout: 60000
+
+  # Example custom API
+  myapi:
+    name: myapi
+    baseUrl: https://api.example.com
+    openApiSpecUrl: https://api.example.com/v1/openapi.json
+    authentication:
+      type: apiKey
+      config:
+        apiKey: ${MY_API_KEY}
+        location: header
+        keyName: X-API-Key
+    defaultHeaders:
+      User-Agent: Universal-OpenAPI-MCP/1.0
+    timeout: 30000
+
+# Set default API (optional)
+defaultApi: jsonplaceholder

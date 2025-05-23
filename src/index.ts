@@ -3,6 +3,16 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+// --- 디버깅 로그 추가 ---
+console.error(`[DEBUG index.ts] INIT`);
+console.error(`[DEBUG index.ts] CWD: ${process.cwd()}`);
+console.error(`[DEBUG index.ts] API_NAME from env: ${process.env.API_NAME}`);
+console.error(`[DEBUG index.ts] OPENAPI_SPEC_URL from env: ${process.env.OPENAPI_SPEC_URL}`);
+console.error(`[DEBUG index.ts] API_BASE_URL from env: ${process.env.API_BASE_URL}`);
+console.error(`[DEBUG index.ts] CONFIG_FILE env: ${process.env.CONFIG_FILE}`);
+console.error(`[DEBUG index.ts] MCP_CONFIG_FILE env: ${process.env.MCP_CONFIG_FILE}`);
+// --- 디버깅 로그 끝 ---
+
 import { FastMCP, UserError } from 'fastmcp';
 import { z } from 'zod';
 import yaml from 'js-yaml';
@@ -349,6 +359,13 @@ async function main() {
   try {
     const server = await createServer();
     
+    // Log the config being used by the server instance
+    if (apiInstance && apiInstance.config) {
+      console.error(`[DEBUG index.ts main] Config used for server: ${JSON.stringify(apiInstance.config, null, 2)}`);
+    } else {
+      console.error('[DEBUG index.ts main] apiInstance or apiInstance.config is not available for logging.');
+    }
+    console.error(`[DEBUG index.ts main] Server instance created. Attempting to start...`);
     // Start the server
     await server.start({
       transportType: 'stdio'

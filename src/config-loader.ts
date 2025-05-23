@@ -10,10 +10,15 @@ export class ConfigLoader {
    * Load configuration from environment variables (existing functionality)
    */
   static loadConfigFromEnv(): ApiConfig {
+    console.error('[DEBUG ConfigLoader loadConfigFromEnv] Attempting to load config from environment variables.');
+    console.error(`[DEBUG ConfigLoader loadConfigFromEnv] Initial OPENAPI_SPEC_URL: ${process.env.OPENAPI_SPEC_URL}`);
+    console.error(`[DEBUG ConfigLoader loadConfigFromEnv] Initial API_BASE_URL: ${process.env.API_BASE_URL}`);
+    console.error(`[DEBUG ConfigLoader loadConfigFromEnv] Initial API_NAME: ${process.env.API_NAME}`);
     const openApiSpecUrl = process.env.OPENAPI_SPEC_URL;
     const baseUrl = process.env.API_BASE_URL;
     
     if (!openApiSpecUrl && !baseUrl) {
+      console.error('[DEBUG ConfigLoader loadConfigFromEnv] CRITICAL: Neither OPENAPI_SPEC_URL nor API_BASE_URL is defined in env.');
       throw new Error('Either OPENAPI_SPEC_URL or API_BASE_URL must be provided');
     }
 
@@ -130,18 +135,33 @@ export class ConfigLoader {
    * Load configuration with fallback: YAML file first, then environment variables
    */
   static async loadConfiguration(yamlPath?: string, apiName?: string): Promise<ApiConfig> {
+    console.error(`[DEBUG ConfigLoader loadConfiguration] INIT. YAML Path: ${yamlPath}, API Name: ${apiName}`);
+    console.error(`[DEBUG ConfigLoader loadConfiguration] CWD: ${process.cwd()}`);
+    console.error(`[DEBUG ConfigLoader loadConfiguration] Env OPENAPI_SPEC_URL: ${process.env.OPENAPI_SPEC_URL}`);
+    console.error(`[DEBUG ConfigLoader loadConfiguration] Env API_BASE_URL: ${process.env.API_BASE_URL}`);
+    console.error(`[DEBUG ConfigLoader loadConfiguration] Env API_NAME: ${process.env.API_NAME}`);
     // Try loading from YAML file first
     if (yamlPath) {
       try {
+        console.error(`[DEBUG ConfigLoader loadConfiguration] Attempting to load from YAML: ${yamlPath}`);
         const multiConfig = await this.loadConfigFromYaml(yamlPath);
+        console.error('[DEBUG ConfigLoader loadConfiguration] YAML loaded successfully.');
         return this.getApiConfig(multiConfig, apiName);
       } catch (error) {
-        // Silently fallback to environment variables
+        console.error(`[DEBUG ConfigLoader loadConfiguration] Failed to load from YAML: ${(error as Error).message}. Falling back to env.`);
       }
     }
     
     // Fallback to environment variables
-    return this.loadConfigFromEnv();
+    console.error('[DEBUG ConfigLoader loadConfiguration] Proceeding to loadConfigFromEnv.');
+    try {
+      const envConfig = this.loadConfigFromEnv();
+      console.error('[DEBUG ConfigLoader loadConfiguration] Loaded from env successfully.');
+      return envConfig;
+    } catch (error) {
+      console.error(`[DEBUG ConfigLoader loadConfiguration] Error during loadConfigFromEnv: ${(error as Error).message}`);
+      throw error; // Re-throw to be caught by main's catch block in index.ts
+    }
   }
 
   /**

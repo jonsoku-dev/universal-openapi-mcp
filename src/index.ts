@@ -354,7 +354,16 @@ async function main() {
       transportType: 'stdio'
     });
   } catch (error) {
-    // Exit silently on error to avoid polluting stdout
+    if (error instanceof UserError) {
+      console.error(`Configuration Error: ${error.message}`);
+    } else if (error instanceof Error) {
+      console.error(`Unexpected Error: ${error.name} - ${error.message}`);
+      if (error.stack) {
+        console.error(error.stack);
+      }
+    } else {
+      console.error('An unknown error occurred:', error);
+    }
     process.exit(1);
   }
 }

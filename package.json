@@ -5,13 +5,13 @@
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "universal-openapi-mcp": "./dist/index.js"
+    "universal-openapi-mcp": "./dist/cli.js"
   },
   "scripts": {
-    "build": "tsc && chmod +x dist/index.js",
-    "dev": "tsx src/index.ts",
-    "start": "node dist/index.js",
-    "test": "npx fastmcp dev src/index.ts",
+    "build": "tsc && chmod +x dist/cli.js",
+    "dev": "tsx src/cli.ts",
+    "start": "node dist/cli.js",
+    "test": "npx fastmcp dev src/cli.ts",
     "inspect": "npx fastmcp inspect src/index.ts",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean",

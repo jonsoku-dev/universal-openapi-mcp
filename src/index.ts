@@ -1,10 +1,7 @@
-#!/usr/bin/env node
-
-import dotenv from 'dotenv';
-dotenv.config();
+// dotenv.config(); // Moved to cli.ts
 
 // --- 디버깅 로그 추가 ---
-console.error(`[DEBUG index.ts] INIT`);
+console.error(`[DEBUG index.ts] INIT (dotenv.config() moved to cli.ts)`);
 console.error(`[DEBUG index.ts] CWD: ${process.cwd()}`);
 console.error(`[DEBUG index.ts] API_NAME from env: ${process.env.API_NAME}`);
 console.error(`[DEBUG index.ts] OPENAPI_SPEC_URL from env: ${process.env.OPENAPI_SPEC_URL}`);
@@ -32,6 +29,45 @@ const VERSION = '1.0.0';
 // Global state
 let apiInstance: ApiInstance;
 let apiClient: ApiClient;
+
+// Main function to start the server (exported for cli.ts)
+export async function startUniversalOpenApiMcpServer() {
+  console.error('[DEBUG index.ts startUniversalOpenApiMcpServer] Starting server process...');
+
+  // Global error handlers (moved here to be active when this function runs)
+  process.on('unhandledRejection', (reason, promise) => {
+    console.error('[FATAL index.ts unhandledRejection] Reason:', reason);
+    // console.error('[FATAL index.ts unhandledRejection] Promise:', promise);
+    // process.exit(1); // Let cli.ts handle exit
+  });
+
+  process.on('uncaughtException', (error) => {
+    console.error('[FATAL index.ts uncaughtException] Error:', error);
+    // process.exit(1); // Let cli.ts handle exit
+  });
+
+  try {
+    const server = await createServer(); // createServer will call loadConfiguration
+    console.error('[DEBUG index.ts startUniversalOpenApiMcpServer] Server instance obtained. Starting transport...');
+    server.start({
+      transportType: 'stdio'
+    });
+    console.error('[DEBUG index.ts startUniversalOpenApiMcpServer] Server transport started.');
+  } catch (error) {
+    console.error('[FATAL index.ts startUniversalOpenApiMcpServer] Error during server startup:');
+    if (error instanceof Error) {
+      console.error(`[FATAL index.ts startUniversalOpenApiMcpServer] Message: ${error.message}`);
+      console.error(`[FATAL index.ts startUniversalOpenApiMcpServer] Stack: ${error.stack}`);
+    } else {
+      console.error('[FATAL index.ts startUniversalOpenApiMcpServer] Unknown error:', error);
+    }
+    throw error; // Re-throw to allow cli.ts to handle process exit
+  }
+}
+
+// The rest of the file (loadConfiguration, createServer, tools) remains largely the same,
+// but now they are effectively part of the module loaded by startUniversalOpenApiMcpServer.
+// Ensure no top-level await or direct server.start() calls remain outside this exported function.
 
 // Load configuration and initialize API
 async function loadConfiguration() {

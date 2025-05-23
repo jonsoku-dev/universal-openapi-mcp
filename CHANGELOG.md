@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.3.0](https://github.com/jonsoku-dev/universal-openapi-mcp/compare/v1.2.1...v1.3.0) (2025-05-23)
+
+
+### Features
+
+* add extensive debug logging for configuration loading process ([6f6ae35](https://github.com/jonsoku-dev/universal-openapi-mcp/commit/6f6ae35ed176460bbba6dc02081abf2f358ee015))
+
 ## [1.2.1](https://github.com/jonsoku-dev/universal-openapi-mcp/compare/v1.2.0...v1.2.1) (2025-05-23)
 
 

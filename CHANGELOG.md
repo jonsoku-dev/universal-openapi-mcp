@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.3](https://github.com/jonsoku-dev/universal-openapi-mcp/compare/v1.3.2...v1.3.3) (2025-05-23)
+
+
+### Bug Fixes
+
+* implement ES module compatibility for __dirname and __filename in CLI ([29a763d](https://github.com/jonsoku-dev/universal-openapi-mcp/commit/29a763d5e3f7f792b490d75792c9628496025f6a))
+
 ## [1.3.2](https://github.com/jonsoku-dev/universal-openapi-mcp/compare/v1.3.1...v1.3.2) (2025-05-23)
 
 ## [1.3.1](https://github.com/jonsoku-dev/universal-openapi-mcp/compare/v1.3.0...v1.3.1) (2025-05-23)

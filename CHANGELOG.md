@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/jonsoku-dev/universal-openapi-mcp/compare/v1.3.0...v1.3.1) (2025-05-23)
+
+
+### Bug Fixes
+
+* enhance error handling and debug logging in server startup flow ([29d4b60](https://github.com/jonsoku-dev/universal-openapi-mcp/commit/29d4b6008b964c598e44cd40eb7ef826262efca5))
+
 # [1.3.0](https://github.com/jonsoku-dev/universal-openapi-mcp/compare/v1.2.1...v1.3.0) (2025-05-23)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "universal-openapi-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Universal OpenAPI MCP Server for Model Context Protocol",
   "type": "module",
   "main": "dist/index.js",
@@ -73,7 +73,9 @@
   },
   "release-it": {
     "hooks": {
-      "before:init": ["npm run build"]
+      "before:init": [
+        "npm run build"
+      ]
     },
     "git": {
       "commitMessage": "chore(release): v${version}",

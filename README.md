@@ -7,6 +7,7 @@ A powerful Model Context Protocol (MCP) server that works with any OpenAPI-compl
 - [Features](#features)
 - [Installation](#installation)
 - [Quick Start](#quick-start)
+- [Usage with Claude Desktop](#usage-with-claude-desktop)
 - [Configuration](#configuration)
   - [Using .env (Environment Variables)](#using-env-environment-variables)
   - [Using YAML Configuration](#using-yaml-configuration)
@@ -36,7 +37,7 @@ A powerful Model Context Protocol (MCP) server that works with any OpenAPI-compl
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/universal-openapi-mcp.git
+git clone https://github.com/jonsoku-dev/universal-openapi-mcp.git
 cd universal-openapi-mcp
 ```
 
@@ -74,6 +75,43 @@ npm run dev
 ```bash
 npx fastmcp dev src/index.ts
 ```
+
+## Usage with Claude Desktop
+
+To use this server with Claude Desktop, you need to register it in your `claude_desktop_config.json` file.
+
+1.  Locate your `claude_desktop_config.json` file. The location varies by operating system:
+    *   **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+    *   **Windows:** `%APPDATA%\\Claude\\claude_desktop_config.json`
+    *   **Linux:** `~/.config/Claude/claude_desktop_config.json`
+
+2.  Open the file and add or update the `mcpServers` section as follows:
+
+    ```json
+    {
+      "mcpServers": {
+        "universal-openapi-mcp": {
+          "command": "npx",
+          "args": [
+            "universal-openapi-mcp"
+          ],
+          "env": {
+            "OPENAPI_SPEC_URL": "YOUR_OPENAPI_SPEC_URL",
+            "API_BASE_URL": "YOUR_API_BASE_URL",
+            "API_NAME": "YOUR_API_NAME",
+            "API_TIMEOUT": "30000" // Optional
+            // Add any other required environment variables for your API
+            // (e.g., AUTH_TYPE, API_KEY, etc., as detailed in the [Configuration](#configuration) section).
+          }
+        }
+        // You can add other MCP servers here
+      }
+    }
+    ```
+
+3.  **Important:** Replace `YOUR_OPENAPI_SPEC_URL`, `YOUR_API_BASE_URL`, and `YOUR_API_NAME` with the actual values for the API you want to connect to. You can also configure authentication by setting the appropriate environment variables (e.g., `AUTH_TYPE`, `API_KEY`, etc., as detailed in the [Configuration](#configuration) section) within the `env` block for the server.
+
+4.  Save the `claude_desktop_config.json` file. Claude Desktop should automatically pick up the new server configuration.
 
 ## Configuration
 
@@ -551,6 +589,10 @@ npm run build
 # Run tests
 npm test
 ```
+
+## Architecture Documentation
+
+For a detailed explanation of the server's architecture, please see the [ARCHITECTURE.md](ARCHITECTURE.md) file.
 
 ## Contributing
 
